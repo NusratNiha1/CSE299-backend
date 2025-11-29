@@ -6,6 +6,7 @@ from typing import List, Tuple
 
 import numpy as np
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 import torch
 import torch.nn as nn
@@ -60,6 +61,7 @@ def preds_to_segments(
 
 def create_app():
     app = Flask(__name__)
+    CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["*"], methods=["*"])
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if not os.path.exists(MODEL_PATH):
